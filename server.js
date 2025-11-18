@@ -27,8 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
   "http://localhost:3000",
   "https://doctor-appointment-frontend-plum.vercel.app",
-  "https://doctor-appointment-fronte-git-8592f3-kanikasrinivasans-projects.vercel.app",
+  "https://doctor-appointment-fronte-git-8592f3-kanikasrinivasans-projects.vercel.app"
 ];
+
 
 app.use(
   cors({
