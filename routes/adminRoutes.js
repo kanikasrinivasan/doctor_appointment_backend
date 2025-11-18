@@ -1,6 +1,9 @@
 import express from "express";
+
 import {
   getAllUsers,
+  getAllDoctors,
+  getAllAppointments,
   deleteUser
 } from "../controllers/adminController.js";
 
@@ -21,21 +24,21 @@ import {
 
 const router = express.Router();
 
-// ------------------- USER ROUTES -------------------
+// ---------------- USER ROUTES ----------------
 router.get("/users", getAllUsers);
 router.delete("/user/:id", deleteUser);
 
-// ------------------- DOCTOR ROUTES -------------------
-router.post("/doctor", addDoctor);          // ➕ Create Doctor
-router.get("/doctors", getDoctors);         // 📋 Get All Doctors
-router.put("/doctor/:id", updateDoctor);    // ✏️ Update Doctor
-router.delete("/doctor/:id", deleteDoctor); // ❌ Delete Doctor
+// ---------------- DOCTOR ROUTES ----------------
+router.post("/doctor", addDoctor);
+router.get("/doctors", getDoctors);
+router.put("/doctor/:id", updateDoctor);
+router.delete("/doctor/:id", deleteDoctor);
 
-// ------------------- APPOINTMENT ROUTES -------------------
-router.post("/appointment", bookAppointment);                // ➕ Book Appointment
-router.get("/appointments/user/:id", getAppointmentsByUser); // 📋 Get by User
-router.get("/appointments/doctor/:id", getAppointmentsByDoctor); // 📋 Get by Doctor
-router.put("/appointment/:id", updateAppointment);           // ✏️ Update Appointment
-router.delete("/appointment/:id", deleteAppointment);        // ❌ Cancel Appointment
+// ---------------- APPOINTMENT ROUTES ----------------
+router.post("/appointment", bookAppointment);
+router.get("/appointments/user/:id", getAppointmentsByUser);
+router.get("/appointments/doctor/:id", getAppointmentsByDoctor);
+router.put("/appointment/:id", updateAppointment);
+router.delete("/appointment/:id", deleteAppointment);
 
 export default router;

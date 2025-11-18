@@ -3,8 +3,10 @@ import { registerUser, loginUser } from "../controllers/authController.js";
 
 const router = express.Router();
 
-// 📝 User Authentication Routes
+// REGISTER
 router.post("/register", registerUser);
+
+// LOGIN (this returns token)
 router.post("/login", loginUser);
 
 export default router;
