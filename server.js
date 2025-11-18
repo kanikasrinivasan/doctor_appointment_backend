@@ -20,40 +20,25 @@ connectDB();
 // ✅ Middleware
 app.use(express.json()); // Important for POST requests
 
-// ✅ Enable CORS
+// ✅ FIXED CORS - ALLOW LOCAL + VERCEL FRONTEND
+// 🟢 CORS FIX (Express v5 Safe Version)
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://doctor-appointment-frontend-plum.vercel.app",
+  "https://doctor-appointment-fronte-git-8592f3-kanikasrinivasans-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "*", // You can replace * with your frontend URL for security (e.g. "http://localhost:3000")
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
-);
-
-// ✅ Request Logger (place before routes)
-app.use((req, res, next) => {
-  console.log(`📩 ${req.method} ${req.url}`);
-  next();
-});
-
-// ✅ API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/doctors", doctorRoutes);
-app.use("/api/appointments", appointmentRoutes);
-app.use("/api/admin", adminRoutes);
-
-// ✅ Default Route
-app.get("/", (req, res) => {
-  res.send("🚀 Doctor Appointment System API is running successfully!");
-});
-
-// ✅ Error Handling Middleware (optional but useful)
-app.use((err, req, res, next) => {
-  console.error("❌ Server Error:", err.message);
-  res.status(500).json({ message: "Server Error", error: err.message });
-});
-
-// ✅ Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on port ${PORT}`)
 );
