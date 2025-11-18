@@ -20,6 +20,7 @@ connectDB();
 // Body Parser
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
 // -------------------------------
 // CORS FIX FOR LOCAL + VERCEL
 // -------------------------------
