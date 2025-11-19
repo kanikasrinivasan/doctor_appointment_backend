@@ -19,32 +19,39 @@ connectDB();
 
 // Body Parser
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
+
 // -------------------------------
-// CORS FIX FOR LOCAL + VERCEL
+// ✅ FIXED CORS FOR RENDER + VERCEL
 // -------------------------------
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://doctor-appointment-frontend-plum.vercel.app",
+  "https://doctor-appointment-frontend-beta.vercel.app",
   "https://doctor-appointment-fronte-git-8592f3-kanikasrinivasans-projects.vercel.app"
 ];
 
-
+// Handle CORS
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+    origin: (origin, callback) => {
+      // Allow requests with no origin (Postman, mobile apps)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("❌ CORS Blocked Origin:", origin);
         callback(new Error("Blocked by CORS"));
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    credentials: true
   })
 );
+
+// Handle preflight (OPTIONS) safely for Express v5
+app.options(/.*/, cors());
 
 // -------------------------------
 // Request Logger
@@ -70,11 +77,10 @@ app.get("/", (req, res) => {
 });
 
 // -------------------------------
-// START SERVER (FIXED FOR RENDER)
+// START SERVER (Render Requirement)
 // -------------------------------
 const PORT = process.env.PORT || 10000;
 
-// IMPORTANT: must use 0.0.0.0 for Render deployment
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
