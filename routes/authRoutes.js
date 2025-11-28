@@ -3,10 +3,10 @@ import { registerUser, loginUser } from "../controllers/authController.js";
 
 const router = express.Router();
 
-// REGISTER
 router.post("/register", registerUser);
-
-// LOGIN (this returns token)
 router.post("/login", loginUser);
+router.get("/test", (req, res) => {
+  return res.status(200).json({ message: "Server awake" });
+});
 
 export default router;
